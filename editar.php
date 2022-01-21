@@ -1,36 +1,36 @@
 <?php require_once 'includes/header.php';?>
 <title>Editar</title>
 <body>
-    <?php if(isset($_GET['id'])):
+    <?php 
+    if(isset($_GET['id'])):
         $id = $_GET['id'];
         $dados = $colaboradorDao->readColaborador($id);
     endif;
-    if(isset($_POST['btn-editar'])):
-        $erros = array();
-        if(!$idade = filter_input(INPUT_POST, 'idade', FILTER_VALIDATE_INT) or (!$telefone = filter_input(INPUT_POST, 'telefone', FILTER_VALIDATE_INT) or (!$celular = filter_input(INPUT_POST, 'celular', FILTER_VALIDATE_INT) or (!$carga_horaria = filter_input(INPUT_POST, 'carga_horaria', FILTER_VALIDATE_INT) or (!$dependentes = filter_input(INPUT_POST, 'dependentes', FILTER_VALIDATE_INT)))))):
-            $erros[] = "Os campos de idade, telefone, celular, carga horária e dependentes precisam ser preenchidos com caracteres numéricos!";
-        endif;
-        if(empty($_POST['nome']) or empty($_POST['sobrenome']) or empty($_POST['idade']) or empty($_POST['telefone']) or empty($_POST['celular']) or empty($_POST['carga_horaria']) or empty($_POST['cargo']) or empty($_POST['dependentes'])):
-            $erros[] = "Todos os campos devem ser preenchidos!";
-        endif;
-        if(!empty($erros)):
-            foreach ($erros as $erro):
-                echo "<script>alert('".$erro."')</script>";
-            endforeach;
-        else:
+    if(isset($_POST['btn-editar'])){
+        $nome_ = addslashes($_POST['nome']);
+        $sobrenome_ = addslashes($_POST['sobrenome']);
+        $idade_ = addslashes($_POST['idade']);
+        $telefone_ = addslashes($_POST['telefone']);
+        $celular_ = addslashes($_POST['celular']);
+        $carga_horaria_ = addslashes($_POST['carga_horaria']);
+        $cargo_ = addslashes($_POST['cargo']);
+        $dependentes_ = addslashes($_POST['dependentes']);
+        
+        if(!empty($nome_) OR !empty($sobrenome_) OR !empty($idade_) OR !empty($telefone_) OR !empty($celular_) OR !empty($carga_horaria_) OR !empty($cargo_) OR !empty($dependentes_)){
         $colaborador->setId($id);
-        $colaborador->setNome($_POST['nome']);
-        $colaborador->setSobrenome($_POST['sobrenome']);
-        $colaborador->setIdade($_POST['idade']);
-        $colaborador->setTelefone($_POST['telefone']);
-        $colaborador->setCelular($_POST['celular']);
-        $colaborador->setCargaHoraria($_POST['carga_horaria']);
-        $colaborador->setCargo($_POST['cargo']);
-        $colaborador->setDependentes($_POST['dependentes']);
+        $colaborador->setNome($nome_);
+        $colaborador->setSobrenome($sobrenome_);
+        $colaborador->setIdade($idade_);
+        $colaborador->setTelefone($telefone_);
+        $colaborador->setCelular($celular_);
+        $colaborador->setCargaHoraria($carga_horaria_);
+        $colaborador->setCargo($cargo_);
+        $colaborador->setDependentes($dependentes_);
         $colaboradorDao->update($colaborador);
         header('Location: index.php');
-        endif;
-    endif;?>
+        }
+    }
+    ?>
     <form action="" method="post" style="margin-top: 4%; margin-left: 10%; margin-right: 50%;">
         <div class="input-field col s6">
             <i class="material-icons prefix">account_circle</i>
@@ -44,22 +44,22 @@
         </div>
         <div class="input-field col s6">
             <i class="material-icons prefix">info</i>
-            <input id="idade" type="text" name="idade" value="<?php echo $dados['idade'];?>" class="validate">
+            <input id="idade" type="number" name="idade" value="<?php echo $dados['idade'];?>" class="validate">
             <label for="idade">Idade</label>
         </div>
         <div class="input-field col s6">
             <i class="material-icons prefix">phone</i>
-            <input id="telefone" name="telefone" type="text" value="<?php echo $dados['telefone'];?>" class="validate">
+            <input id="telefone" name="telefone" type="number" value="<?php echo $dados['telefone'];?>" class="validate">
             <label for="telefone">Telefone</label>
         </div>
         <div class="input-field col s6">
             <i class="material-icons prefix">stay_current_portrait</i>
-            <input id="celular" name="celular" type="text" value="<?php echo $dados['celular'];?>" class="validate">
+            <input id="celular" name="celular" type="number" value="<?php echo $dados['celular'];?>" class="validate">
             <label for="celular">Celular</label>
         </div>
         <div class="input-field col s6">
             <i class="material-icons prefix">timer</i>
-            <input id="carga_horaria" name="carga_horaria" type="text" value="<?php echo $dados['carga_horaria'];?>" class="validate">
+            <input id="carga_horaria" name="carga_horaria" type="number" value="<?php echo $dados['carga_horaria'];?>" class="validate">
             <label for="carga_horaria">Carga Horária</label>
         </div>
         <div class="input-field col s6">
@@ -69,7 +69,7 @@
         </div>
         <div class="input-field col s6">
             <i class="material-icons prefix">child_friendly</i>
-            <input id="dependentes" name="dependentes" type="text" value="<?php echo $dados['dependentes'];?>" class="validate">
+            <input id="dependentes" name="dependentes" type="number" value="<?php echo $dados['dependentes'];?>" class="validate">
             <label for="dependentes">Dependentes</label>
         </div>
         <a class="waves-effect black btn" href="index.php"><i class="material-icons right">arrow_back</i>Retornar</a>

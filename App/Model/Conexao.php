@@ -3,7 +3,7 @@ Class Conexao {
     private static $instancia;
     public static function GetConn() {
         if(!isset(self::$instancia)){
-            self::$instancia = new \PDO("mysql:host=localhost;dbname=db_colaboradores;charset=utf8","root","");
+            self::$instancia = new \PDO("mysql:host=localhost;dbname=pdo;charset=utf8","root","");
         }
         return self::$instancia;
     }
